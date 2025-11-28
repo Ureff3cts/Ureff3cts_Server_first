@@ -1,0 +1,12 @@
+# Railway configuration for Ureff3cts
+[build]
+builder = "NIXPACKS"
+buildCommand = "npm install"
+
+[start]
+startCommand = "npm run start"
+
+[deploy]
+restartPolicy = "always"
+healthcheckPath = "/status"
+healthcheckTimeout = 30
