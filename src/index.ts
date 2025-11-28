@@ -1,18 +1,12 @@
 import Fastify from "fastify";
 import { Storage } from "./storage";
 import { registerRoutes } from "./api";
+import { registerAuthMiddleware } from "../middleware";
 
 const app = Fastify({ logger: true });
 const store = new Storage();
 
-// 🔑 Authentication middleware
-app.addHook("onRequest", async (req, reply) => {
-  const apiKey = req.headers["x-api-key"];
-  if (apiKey !== process.env.API_KEY) {
-    reply.code(401).send({ error: "Unauthorized" });
-  }
-});
-
+registerAuthMiddleware(app);
 registerRoutes(app, store);
 
 const PORT = Number(process.env.PORT ?? 8080);
